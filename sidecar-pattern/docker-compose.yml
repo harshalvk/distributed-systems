@@ -1,0 +1,23 @@
+services:
+  main-app:
+    build:
+      context: .
+      dockerfile: main-app/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes: 
+      - access-logs:/var/log/app
+      
+  sidecar:
+    build:
+      context: .
+      dockerfile: sidecar/Dockerfile
+    ports:
+     - "9090:9090"
+    volumes:
+      - access-logs:/var/log/app
+    depends_on:
+      - main-app
+
+volumes:
+  access-logs:
